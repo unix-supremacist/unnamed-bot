@@ -1,0 +1,26 @@
+{
+    "url": "openai api or openai api emulation url",
+    "token": "token",
+    "ai": [
+        {            
+            "prompt": "prompt",
+            "name": "ai name",
+            "discord": {
+                "id": "bots discord id",
+                "userid": "id for user that the bot should respond to more",
+                "token": "bot token",
+                "chance": 2,
+                "bonus": 8
+            },
+            "twitch": {
+                "oauth": "token",
+                "user": "user bot replies to more",
+                "notme": "user bot randomly ignores (implemented to help stop loops when there is 2 bots)"
+            }
+        }
+    ],
+    "channels": [
+        "channel1",
+        "channel2"
+    ]
+}
