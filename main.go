@@ -14,7 +14,7 @@ var logger *log.Logger
 var config Config
 
 type Config struct {
-	Url, Token string
+	Url, Ttsurl, Token string
 	Bot []struct {
 		Name string
 		Discord DiscordConfig
@@ -49,7 +49,7 @@ func main() {
 			dg := newDiscordSession(dc.Token)
 			newDiscordMod(dg)
 			if len(ac.Prompt) > 0 {
-				newDiscordAi(dc.Id, bot.Name, dc.Userid, dg, ac.Chance, ac.Bonus, req)
+				newDiscordAi(dc.Id, bot.Name, dc.Userid, ac.Speaker, dg, ac.Chance, ac.Bonus, req)
 			}
 		}
 

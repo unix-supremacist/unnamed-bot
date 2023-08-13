@@ -2,7 +2,7 @@ package main
 
 import (
 	"strings"
-
+	"bytes"
 	"math/rand"
 	openai "github.com/sashabaranov/go-openai"
 	discord "github.com/bwmarrin/discordgo"
@@ -42,7 +42,7 @@ func newDiscordMod(dg *discord.Session,){
 	dg.AddHandler(newDiscordMessage)
 }
 
-func newDiscordAi(botid, botname, botuser string, dg *discord.Session, responseChance, userBonus int, req openai.ChatCompletionRequest){
+func newDiscordAi(botid, botname, botuser, speaker string, dg *discord.Session, responseChance, userBonus int, req openai.ChatCompletionRequest){
 	newDiscordMessage := func(s *discord.Session, m *discord.MessageCreate){
 		if m.Author.ID == s.State.User.ID {
 			return
@@ -74,7 +74,11 @@ func newDiscordAi(botid, botname, botuser string, dg *discord.Session, responseC
 		if mentioned || rand.Intn(100) <= user || channel.Type == discord.ChannelTypeDM {
 			message := genMessage(m.Author.Username, strings.Replace(m.Content, "<@"+botid+">", "@"+botname, -1), botname, req)
 			if message != "null" {
-				s.ChannelMessageSendReply(m.ChannelID, message, (*m).Reference())
+				if strings.Contains(m.Content, "voice") {
+					s.ChannelFileSend(m.ChannelID, "voice_message.wav", bytes.NewReader(genTTS(speaker, botname, message)))
+				} else {
+					s.ChannelMessageSendReply(m.ChannelID, message, (*m).Reference())
+				}
 			}
 		}
 	}

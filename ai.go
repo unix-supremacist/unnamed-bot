@@ -13,7 +13,7 @@ var aic *openai.Client
 var aifilter *gfys.SwearFilter
 
 type AiConfig struct {
-	Prompt string
+	Prompt, Speaker string
 	Chance, Bonus int
 }
 
